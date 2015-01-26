@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+        package="com.sin.model"
+        >
+
+    <class name="Classroom" table="t_classroom" >
+
+        <id name="id">
+            <generator class="native"/>
+        </id>
+        
+        <property name="name" />
+		<property name="grade"/>
+		<!-- lazy=extra 会使其变得智能一些  比如 取个数的时候就发送  select count(*) -->
+		<!-- inverse = true 表示不在自己这一方来维护关系 -->
+		<set name="stus" lazy="extra" inverse="true"  >
+			<key column="cid"/>
+			<!-- student是集合中的类型 -->
+			<one-to-many class="Student"  />
+		</set>
+    </class>
+
+</hibernate-mapping>

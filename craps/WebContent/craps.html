@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+	var ctx;
+	var outcome;
+	var stage;
+	var point;
+	var isfirstThrow = true;
+	function init() {
+		ctx = document.getElementById('canvas').getContext('2d');
+		outcome = document.getElementById('outcome');
+		stage = document.getElementById('stage');
+		stage.value="first throw";
+		var sum = 0;
+		var random = Math.floor(Math.random() * 6) + 1;
+		sum+=random;
+		var dice = new Dice(ctx, random);
+		random = Math.floor(Math.random() * 6) + 1;
+		sum+=random;
+		var dice2 = new Dice(ctxd, random);
+		dice.draw(100, 50, 100, 100);
+		dice2.draw(300, 50, 100, 100);
+	}
+	
+	function judge(sum) {
+		if(isfirstThrow) {
+			
+			switch (sum) {
+			case 7:
+			case 11:
+				outcome.value = "you win!";
+				break;
+			case 2:
+			case 3:
+			case 12:
+				outcom.value="you lose!";
+				break;
+			default:
+				point = sum;
+				stage = "Need follow-up throw";
+				isfirstThrow = false;
+				break;
+			}
+		}else {
+			switch (sum) {
+			case 7:
+				outcome.value = "you lose!";
+				isfirstThrow = true;
+				stage = 'first trhow';
+				break;
+			case point:
+				outcom.value="you win!";
+				isfirstThrow = true;
+				stage = 'first trhow';
+				break;
+			default:
+				point = sum;
+				stage = "Need follow-up throw";
+				isfirstThrow = false;
+				break;
+			}
+		}
+		
+		
+	}
+	
+	
+	//骰子类
+	function Dice(ctx, num) {
+
+		this.draw = function(x, y, w, h) {
+			drawSquare(ctx, x, y, w, h);
+			switch (num) {
+			case 1:
+				drawRound(x + 50, y + 50, 20);
+				break;
+			case 2:
+				drawRound(x + 50, y + 20, 10);
+				drawRound(x + 50, y + 80, 10);
+				break;
+			case 3:
+				drawRound(x + 20, y + 20, 10);
+				drawRound(x + 50, y + 50, 10);
+				drawRound(x + 80, y + 80, 10);
+				break;
+			case 4:
+				drawRound(x + 20, y + 20, 10);
+				drawRound(x + 80, y + 20, 10);
+				drawRound(x + 20, y + 80, 10);
+				drawRound(x + 80, y + 80, 10);
+				break;
+			case 5:
+				drawRound(x + 20, y + 20, 10);
+				drawRound(x + 80, y + 20, 10);
+				drawRound(x + 20, y + 80, 10);
+				drawRound(x + 80, y + 80, 10);
+				drawRound(x + 50, y + 50, 10);
+				break;
+			case 6:
+				drawRound(x + 20, y + 20, 10);
+				drawRound(x + 80, y + 20, 10);
+				drawRound(x + 20, y + 80, 10);
+				drawRound(x + 80, y + 80, 10);
+				drawRound(x + 20, y + 50, 10);
+				drawRound(x + 80, y + 50, 10);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	function drawRound(x, y, r) {
+		ctx.beginPath();
+		ctx.fillStyle = 'rgb(0,200,0)';
+		ctx.arc(x, y, r, 0, 2 * Math.PI, false); //顺时针false 逆时针true
+		ctx.fill();
+	}
+
+	function drawSquare(ctx, x, y, w, h) {
+		ctx.lineWidth = 3;
+		ctx.strokeStyle = 'rgb(255,0,0)';
+		ctx.strokeRect(x, y, w, h);
+		ctx.fillStyle = 'rgb(254,250,144)';
+		ctx.fillRect(x, y, w, h);
+	}
+</script>
+
+</head>
+<body>
+	<canvas id="canvas" width="1000" height="500"
+		style="border: 1px solid blue">
+		you browser doen't support the html element  canvas !
+	</canvas>
+
+	<form name="f">
+		Stage: <input name="stage" id="stage" value="First throw" /> Point: <input
+			name="pv" value="" /> Outcome: <input name="outcome" id="outcome" value="" /> <input
+			type="button" value="THROW DICE" onclick="init()" />
+	</form>
+</body>
+</html>
